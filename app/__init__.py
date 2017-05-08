@@ -9,8 +9,7 @@ def create_app(config_name):
     app.config.from_object(app_config[config_name])
     app.config.from_pyfile("config.py")
 
-    @app.route("/")
-    def homepage():
-        return "Timestamp Microservice"
+    from .main import main as main_blueprint
+    app.register_blueprint(main_blueprint)
 
     return app
