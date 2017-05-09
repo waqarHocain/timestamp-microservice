@@ -1,14 +1,8 @@
+import re
 from datetime import datetime
 
-
-def unixts_converter(unix_ts):
-    """Returns a human readable date in following format,
-    given unix timestamp as an argument
-        "May 8, 2017" 
-    """
-    dt = datetime.utcfromtimestamp(unix_ts)
-
-    return dt.strftime("%B%e, %Y")
+# third party imports
+from dateutil import parser
 
 
 def date_analyzer(_date):
@@ -20,3 +14,36 @@ def date_analyzer(_date):
         return "natural_language"
 
     return "unix_timestamp"
+
+
+def unixts_converter(unix_ts):
+    """Returns a human readable date in following format,
+    given unix timestamp as an argument
+        "May 8, 2017" 
+    """
+    dt = datetime.utcfromtimestamp(unix_ts)
+    
+    result = dt.strftime("%B %e, %Y")
+    result = re.sub(r"\s+", " ", result)
+
+    return result
+
+
+def date_converter(date_str):
+    """Returns a convenient to read str with date in following format,
+    given an somewhat not so convenient date str
+        "August 14, 1947"
+    """
+    try:
+        d = parser.parse(date_str)
+    except ValueError:
+        d = "none"
+
+    if d == "none":
+        return "none"
+
+    # remove extra whitespace
+    result = d.strftime("%B %e, %Y")
+    result = re.sub(r"\s+", " ", result)
+    
+    return result
