@@ -1,4 +1,10 @@
-from flask import render_template, jsonify
+from flask import ( 
+        jsonify,
+        redirect,
+        render_template,
+        request,
+        url_for
+    )
 
 # local imports
 from . import main
@@ -9,8 +15,12 @@ from .utils import (
         unixts_converter
     )
 
-@main.route("/")
+@main.route("/", methods=["GET", "POST"])
 def homepage():
+    if request.method == "POST":
+        d = request.form["date_input"]
+        return redirect(url_for(".timestamp", date_str=d))
+
     return render_template("index.html")
 
 

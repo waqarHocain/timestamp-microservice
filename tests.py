@@ -32,9 +32,19 @@ class HomepageTestCase(BaseTestCase):
 
     def test_there_is_an_input_box(self):
         res = self.client().get("/")
-        input_html = '<input class="time_input" type="text">'
+        input_html = '<input class="time_input" type="text" name="date_input">'
 
         self.assertIn(input_html, res.data)
+
+    def test_on_post_request_date_is_passed_to_timestamp_view(self):
+        res = self.client().post("/", data=dict(date_input="jan 20 13"),
+                                follow_redirects=True)
+
+        expected_date = "January 20, 2013"
+        expected_ts = "1358640000"
+
+        self.assertIn(expected_date, res.data)
+        self.assertIn(expected_ts, res.data)
 
 
 class TimestampTestCase(BaseTestCase):
