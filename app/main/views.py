@@ -1,9 +1,10 @@
-from flask import render_template
+from flask import render_template, jsonify
 
 # local imports
 from . import main
 from .utils import (
         date_converter,
+        date_to_timestamp,
         date_analyzer,
         unixts_converter
     )
@@ -16,14 +17,18 @@ def homepage():
 @main.route("/<date_str>")
 def timestamp(date_str):
     date_format = date_analyzer(date_str)
-    nl_date_str = "none"
+
+    timestamp = None
+    nl_date_str = None
 
     if date_format == "unix_timestamp":
         # convert it to natural language
         ts = int(date_str)
         nl_date_str = unixts_converter(ts)
-        return nl_date_str
+        timestamp = ts
+        return jsonify(unix=timestamp, natural=nl_date_str)
 
     nl_date_str = date_converter(date_str)
+    timestamp = date_to_timestamp(date_str)
 
-    return nl_date_str
+    return jsonify(unix=timestamp, natural=nl_date_str)

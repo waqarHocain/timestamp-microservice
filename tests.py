@@ -6,7 +6,8 @@ from app import create_app
 from app.main.utils import (
         unixts_converter,
         date_analyzer,
-        date_converter
+        date_converter,
+        date_to_timestamp
     )
 
 
@@ -43,8 +44,8 @@ class TimestampTestCase(BaseTestCase):
         res = self.client().get("/january%20february%2005") 
         res2 = self.client().get("/jflsurow398420")
 
-        self.assertIn("none", res.data)
-        self.assertIn("none", res2.data)
+        self.assertIn("null", res.data)
+        self.assertIn("null", res2.data)
 
     def test_it_handles_correct_format_dates(self):
         res = self.client().get("/1970%201%20jun")
@@ -71,6 +72,15 @@ class TimestampTestCase(BaseTestCase):
         self.assertIn(expected_res, res.data)
         self.assertIn(expected_res2, res2.data)
         self.assertIn(expected_res3, res3.data)
+
+    def test_date_is_present_in_unixtimestamp_and_natural_language_form(self):
+        res = self.client().get("/jan 20 2016")
+
+        res_date = "January 20, 2016"
+        res_timestamp = "1453248000"
+
+        self.assertIn(res_date, res.data)
+        self.assertIn(res_timestamp, res.data)
 
 
 class UtilsTestCase(BaseTestCase):
@@ -115,9 +125,14 @@ class UtilsTestCase(BaseTestCase):
         self.assertEqual(date_converter(date_str_2), "May 5, 2012")
         self.assertEqual(date_converter(date_str_3), "June 1, 1970")
 
-        self.assertEqual(date_converter(date_str_4), "none")
-        self.assertEqual(date_converter(date_str_5), "none")
-        self.assertEqual(date_converter(date_str_6), "none")
+        self.assertEqual(date_converter(date_str_4), None)
+        self.assertEqual(date_converter(date_str_5), None)
+        self.assertEqual(date_converter(date_str_6), None)
+
+    def test_it_returns_correct_timestamp_for_a_date_str(self):
+        self.assertEqual(date_to_timestamp("jan 20 2016"), 1453248000)
+        self.assertEqual(date_to_timestamp("11 mar 1977"), 226886400)
+        self.assertEqual(date_to_timestamp("2120 11 march"), 4739558400)
 
 
 if __name__ == "__main__":
