@@ -1,0 +1,44 @@
+body
+{
+    font: 16px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    padding-top: 30px;
+    text-align: center;
+}
+
+h1
+{
+    font-size: 1.8em;
+    font-weight: normal;
+    margin-bottom: 30px;
+    text-transform: lowercase;
+    letter-spacing: 2px;
+}
+
+.time_input
+{
+    border: 2px solid #6CBDC4;
+    border-radius: 4px;
+    outline: none;
+    padding: 5px 10px;
+}
+
+button
+{
+    background: #6CBDC4;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1em;
+    font-style: italic;
+    outline: none;
+    padding: 3px 10px;
+    transition: all 0.3s;
+}
+button:hover,
+button:focus
+{
+    background: #fff;
+    border-color: #6CBDC4;
+    color: #6CBDC4;
+}
