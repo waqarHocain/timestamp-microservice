@@ -10,9 +10,29 @@
         <h1>Timestamp Microservice</h1>
 
         <form action="/" method="POST">
-            <input class="time_input" type="text" name="date_input">
+            <input class="date_input" type="text" name="date_input"
+            placeholder="Enter date here...">
 
-            <button>Submit</html>
+            <button>Submit</button>
         </form>
+
+        <div class="instructions">
+            <p>Either enter the date in the input box above, or pass it as
+            parameter to url. You can enter date in natural language format or
+            <a href="https://en.wikipedia.org/wiki/Unix_time">unix
+                timestamp</a>.</p>
+        </div>
+
+        <div class="example">
+        <h2>Example</h2>
+            <h3>Input:</h3>
+            <code>https://timestampmicroserviceapi.herokuapp.com/11%20mar%2093</code>
+            <br>
+            <code>https://timestampmicroserviceapi.herokuapp.com/731808000</code> 
+            
+            <h3>Output:</h3>
+            <code>{ "natural": "March 11, 1993", "unix": 731808000 }</code>
+        </div>
+
     </body>
 </html>

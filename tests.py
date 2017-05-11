@@ -32,7 +32,7 @@ class HomepageTestCase(BaseTestCase):
 
     def test_there_is_an_input_box(self):
         res = self.client().get("/")
-        input_html = '<input class="time_input" type="text" name="date_input">'
+        input_html = 'class="date_input"'
 
         self.assertIn(input_html, res.data)
 
